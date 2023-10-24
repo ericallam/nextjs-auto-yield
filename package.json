@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@trigger.dev/nextjs": "0.0.0-prerelease-20231024083739",
-    "@trigger.dev/openai": "^0.0.0-prerelease-20231024083739",
-    "@trigger.dev/react": "0.0.0-prerelease-20231024083739",
-    "@trigger.dev/sdk": "0.0.0-prerelease-20231024083739",
+    "@trigger.dev/nextjs": "2.2.0",
+    "@trigger.dev/openai": "2.2.0",
+    "@trigger.dev/react": "2.2.0",
+    "@trigger.dev/sdk": "2.2.0",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18"
