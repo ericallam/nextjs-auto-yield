@@ -9,23 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "13.5.4",
-    "@trigger.dev/sdk": "0.0.0-prerelease-20231024083739",
     "@trigger.dev/nextjs": "0.0.0-prerelease-20231024083739",
-    "@trigger.dev/react": "0.0.0-prerelease-20231024083739"
+    "@trigger.dev/openai": "^0.0.0-prerelease-20231024083739",
+    "@trigger.dev/react": "0.0.0-prerelease-20231024083739",
+    "@trigger.dev/sdk": "0.0.0-prerelease-20231024083739",
+    "next": "13.5.4",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.4",
     "postcss": "^8",
     "tailwindcss": "^3",
-    "eslint": "^8",
-    "eslint-config-next": "13.5.4"
+    "typescript": "^5"
   },
   "trigger.dev": {
     "endpointId": "auto-yield-v551"

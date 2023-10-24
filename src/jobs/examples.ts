@@ -1,5 +1,18 @@
-import { eventTrigger } from "@trigger.dev/sdk";
+import { eventTrigger, intervalTrigger } from "@trigger.dev/sdk";
 import { client } from "@/trigger";
+import { OpenAI } from "@trigger.dev/openai";
+
+const perplexity = new OpenAI({
+  id: "perplexity",
+  apiKey: process.env.PERPLEXITY_API_KEY!,
+  baseURL: "https://api.perplexity.ai",
+  icon: "brand-open-source",
+});
+
+const openai = new OpenAI({
+  id: "openai",
+  apiKey: process.env.OPENAI_API_KEY!,
+});
 
 client.defineJob({
   id: "auto-yield-1",
@@ -30,5 +43,63 @@ client.defineJob({
         };
       });
     }
+  },
+});
+
+client.defineJob({
+  id: "schedule-auto-yield",
+  name: "Schedule Auto Yield",
+  version: "1.0.0",
+  trigger: intervalTrigger({
+    seconds: 60,
+  }),
+  run: async (payload, io, ctx) => {
+    await io.sendEvent("send-event", {
+      name: "auto.yield.1",
+      payload: {
+        timeout: 5000,
+        iterations: 25,
+      },
+    });
+  },
+});
+
+client.defineJob({
+  id: "perplexity-job",
+  name: "Perplexity Job",
+  trigger: eventTrigger({
+    name: "perplexity.job",
+  }),
+  version: "1.0.0",
+  integrations: { perplexity, openai },
+  run: async (payload, io, ctx) => {
+    const messages = [
+      {
+        role: "user" as const,
+        content:
+          "If you were a programming language, what would you be and why?",
+      },
+    ];
+
+    const perplexityResponse = await io.perplexity.chat.completions.create(
+      "perplexity-completion",
+      {
+        model: "mistral-7b-instruct",
+        messages,
+      }
+    );
+
+    const openaiResponse = await io.openai.chat.completions.create(
+      "openai-completion",
+      {
+        model: "gpt-3.5-turbo",
+        messages,
+      }
+    );
+
+    return {
+      perplexity: perplexityResponse.choices[0].message.content,
+      openai: openaiResponse.choices[0].message.content,
+    };
   },
 });
