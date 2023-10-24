@@ -43,6 +43,7 @@ client.defineJob({
   id: "schedule-auto-yield",
   name: "Schedule Auto Yield",
   version: "1.0.0",
+  enabled: false,
   trigger: intervalTrigger({
     seconds: 60,
   }),
