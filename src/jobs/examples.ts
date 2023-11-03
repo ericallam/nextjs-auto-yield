@@ -40,3 +40,71 @@ client.defineJob({
     }
   },
 });
+
+client.defineJob({
+  id: "schedule-auto-yield",
+  name: "Schedule Auto Yield",
+  version: "1.0.0",
+  enabled: false,
+  trigger: intervalTrigger({
+    seconds: 60,
+  }),
+  run: async (payload, io, ctx) => {
+    await io.sendEvent("send-event", {
+      name: "auto.yield.1",
+      payload: {
+        timeout: 5000,
+        iterations: 25,
+      },
+    });
+  },
+});
+
+client.defineJob({
+  id: "perplexity-job",
+  name: "Perplexity Job",
+  trigger: eventTrigger({
+    name: "perplexity.job",
+  }),
+  version: "1.0.0",
+  integrations: { openai },
+  run: async (payload, io, ctx) => {
+    const messages = [
+      {
+        role: "user" as const,
+        content:
+          "If you were a programming language, what would you be and why?",
+      },
+    ];
+
+    const openaiResponse = await io.openai.chat.completions.create(
+      "openai-completion",
+      {
+        model: "gpt-3.5-turbo",
+        messages,
+      }
+    );
+
+    return {
+      openai: openaiResponse.choices[0].message.content,
+    };
+  },
+});
+
+const supabaseManagement = new SupabaseManagement({
+  id: "supabase-management",
+  apiKey: process.env.SUPABASE_API_KEY!,
+});
+
+const triggers = supabaseManagement.db(process.env.SUPABASE_ID!);
+
+client.defineJob({
+  id: "supabase-management-example-1",
+  name: "Supabase Management Example 1",
+  version: "0.1.0",
+  trigger: triggers.on({
+    table: "todos",
+    events: ["INSERT", "DELETE", "UPDATE"],
+  }),
+  run: async (payload, io, ctx) => {},
+});
