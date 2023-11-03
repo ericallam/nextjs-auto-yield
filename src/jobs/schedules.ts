@@ -10,9 +10,12 @@ client.defineJob({
     seconds: 60 * 3, // 3 minutes
   }),
   run: async (payload, io, ctx) => {
+    const value = await io.random("random-native");
+
     await io.runTask("task-example-1", async () => {
       return {
         message: "Hello World",
+        value,
       };
     });
 
