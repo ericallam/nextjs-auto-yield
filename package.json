@@ -12,6 +12,7 @@
     "@trigger.dev/nextjs": "0.0.0-canary-20231103115634",
     "@trigger.dev/openai": "^0.0.0-canary-20231103115634",
     "@trigger.dev/react": "0.0.0-canary-20231103115634",
+    "@trigger.dev/replicate": "^0.0.0-canary-20231103115634",
     "@trigger.dev/sdk": "0.0.0-canary-20231103115634",
     "@trigger.dev/supabase": "0.0.0-canary-20231103115634",
     "next": "13.5.4",
