@@ -2,6 +2,8 @@ import { eventTrigger, intervalTrigger } from "@trigger.dev/sdk";
 import { client } from "@/trigger";
 import { OpenAI } from "@trigger.dev/openai";
 
+import { SupabaseManagement } from "@trigger.dev/supabase";
+
 const openai = new OpenAI({
   id: "openai",
   apiKey: process.env.OPENAI_API_KEY!,
@@ -36,55 +38,5 @@ client.defineJob({
         };
       });
     }
-  },
-});
-
-client.defineJob({
-  id: "schedule-auto-yield",
-  name: "Schedule Auto Yield",
-  version: "1.0.0",
-  enabled: false,
-  trigger: intervalTrigger({
-    seconds: 60,
-  }),
-  run: async (payload, io, ctx) => {
-    await io.sendEvent("send-event", {
-      name: "auto.yield.1",
-      payload: {
-        timeout: 5000,
-        iterations: 25,
-      },
-    });
-  },
-});
-
-client.defineJob({
-  id: "perplexity-job",
-  name: "Perplexity Job",
-  trigger: eventTrigger({
-    name: "perplexity.job",
-  }),
-  version: "1.0.0",
-  integrations: { openai },
-  run: async (payload, io, ctx) => {
-    const messages = [
-      {
-        role: "user" as const,
-        content:
-          "If you were a programming language, what would you be and why?",
-      },
-    ];
-
-    const openaiResponse = await io.openai.chat.completions.create(
-      "openai-completion",
-      {
-        model: "gpt-3.5-turbo",
-        messages,
-      }
-    );
-
-    return {
-      openai: openaiResponse.choices[0].message.content,
-    };
   },
 });
