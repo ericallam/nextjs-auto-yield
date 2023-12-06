@@ -13,6 +13,12 @@ client.defineJob({
   name: "Replicate - Forge Image",
   version: "0.1.0",
   integrations: { replicate },
+  onSuccess(notification) {
+    console.log("Replicate Forge Image success", notification);
+  },
+  onFailure(notification) {
+    console.log("Replicate Forge Image failed", notification);
+  },
   trigger: eventTrigger({
     name: "replicate.bad.forgery",
     schema: z.object({
