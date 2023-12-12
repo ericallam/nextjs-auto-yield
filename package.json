@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@trigger.dev/nextjs": "0.0.0-prerelease-20231206103411",
-    "@trigger.dev/openai": "0.0.0-prerelease-20231206103411",
-    "@trigger.dev/react": "0.0.0-prerelease-20231206103411",
-    "@trigger.dev/replicate": "0.0.0-prerelease-20231206103411",
-    "@trigger.dev/sdk": "0.0.0-prerelease-20231206103411",
-    "@trigger.dev/supabase": "0.0.0-prerelease-20231206103411",
+    "@trigger.dev/nextjs": "2.3.2",
+    "@trigger.dev/openai": "2.3.2",
+    "@trigger.dev/react": "2.3.2",
+    "@trigger.dev/replicate": "2.3.2",
+    "@trigger.dev/sdk": "2.3.2",
+    "@trigger.dev/supabase": "2.3.2",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18"
