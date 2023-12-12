@@ -42,6 +42,38 @@ client.defineJob({
 });
 
 client.defineJob({
+  id: "auto-yield-2",
+  name: "Auto Yield 2",
+  version: "1.0.0",
+  trigger: eventTrigger({
+    name: "auto.yield.2",
+  }),
+  run: async (payload, io, ctx) => {
+    await io.runTask("initial-long-task", async (task) => {
+      await new Promise((resolve) => setTimeout(resolve, payload.timeout));
+
+      return {
+        message: "initial-long-task",
+      };
+    });
+
+    for (let i = 0; i < payload.iterations; i++) {
+      await io.runTask(`task.${i}`, async (task) => {
+        // Create a random number between 250 and 1250
+        const random = Math.floor(Math.random() * 1000) + 250;
+
+        await new Promise((resolve) => setTimeout(resolve, random));
+
+        return {
+          message: `task.${i}`,
+          random,
+        };
+      });
+    }
+  },
+});
+
+client.defineJob({
   id: "schedule-auto-yield",
   name: "Schedule Auto Yield",
   version: "1.0.0",
